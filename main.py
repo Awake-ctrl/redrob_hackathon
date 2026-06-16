@@ -17,9 +17,12 @@ def generate_submission(input_path, output_path):
     # Dual-key sort: score descending, then candidate_id alphabetically ascending
     df_ranked = df_scored.sort_values(by=['score', 'candidate_id'], ascending=[False, True])
     
-    # Isolate exactly the top 100 rows
+    
+    # Isolate the top matches safely
     top_100 = df_ranked.head(100).copy()
-    top_100['rank'] = range(1, 101)
+    
+    # FIX: Dynamically match the array length to the row count
+    top_100['rank'] = range(1, len(top_100) + 1)
     
     # Programmatic customized reasoning generation
     reasons = []
